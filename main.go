@@ -1,9 +1,7 @@
 package main
 
 import (
-	"log"
 	"net/http"
-	"os"
 	"path/filepath"
 
 	"github.com/bugsnag/bugsnag-go"
@@ -41,7 +39,7 @@ func main() {
 
 	hackathonDB := db.InitHackathons(keyHolder["postgresURL"])
 	defer hackathonDB.Db.Close()
-	hackathonDB.TraceOn("[gorp]", log.New(os.Stdout, "myapp:", log.Lmicroseconds))
+	// hackathonDB.TraceOn("[gorp]", log.New(os.Stdout, "myapp:", log.Lmicroseconds))
 	m.Map(hackathonDB)
 
 	m.Use(func(c martini.Context, w http.ResponseWriter) {

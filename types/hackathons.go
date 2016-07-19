@@ -3,7 +3,6 @@ package types
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 
 	"gopkg.in/gorp.v1"
 )
@@ -41,7 +40,7 @@ type HardwareItem struct {
 }
 
 type Hackathon struct {
-	Id             int64            `json:"-"`
+	Id             int64            `json:"id"`
 	OwnerID        int64            `json:"ownerid"`
 	Name           string           `json:"name"`
 	Location       PhysicalLocation `json:"location"`
@@ -68,7 +67,6 @@ func (me HackathonTypeConverter) ToDb(val interface{}) (interface{}, error) {
 		if err != nil {
 			return "", err
 		}
-		fmt.Println(string(b))
 		return string(b), nil
 	}
 

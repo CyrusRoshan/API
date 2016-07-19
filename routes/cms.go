@@ -2,6 +2,7 @@ package cms
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/go-martini/martini"
@@ -30,6 +31,8 @@ func NewHackathon(w http.ResponseWriter, r *http.Request, hackathonDB *gorp.DbMa
 
 	err = hackathonDB.Insert(&newHackathon)
 	utils.PanicIf(err)
+
+	fmt.Println("NEW ID", newHackathon.Id)
 
 	return 200, utils.MustMarshal(newHackathon)
 }
