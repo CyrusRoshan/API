@@ -13,7 +13,7 @@ import (
 
 func GetHackathon(w http.ResponseWriter, r *http.Request, hackathonDB *gorp.DbMap, params martini.Params) (int, string) {
 	var existingHackathon types.Hackathon
-	err := hackathonDB.SelectOne(&existingHackathon, "select * from hackathons where id=?", params["id"])
+	err := hackathonDB.SelectOne(&existingHackathon, "select * from hackathons where id=$1", params["id"])
 	utils.PanicIf(err)
 
 	return 200, utils.MustMarshal(existingHackathon)
@@ -36,7 +36,7 @@ func NewHackathon(w http.ResponseWriter, r *http.Request, hackathonDB *gorp.DbMa
 
 func EditHackathon(w http.ResponseWriter, r *http.Request, hackathonDB *gorp.DbMap, params martini.Params) (int, string) {
 	var existingHackathon types.Hackathon
-	err := hackathonDB.SelectOne(&existingHackathon, "select * from hackathons where id=?", params["id"])
+	err := hackathonDB.SelectOne(&existingHackathon, "select * from hackathons where id=$1", params["id"])
 	utils.PanicIf(err)
 
 	// Make a check here to check existingHackathon.OwnerID here when auth has been implemented
@@ -57,7 +57,7 @@ func EditHackathon(w http.ResponseWriter, r *http.Request, hackathonDB *gorp.DbM
 
 func DeleteHackathon(w http.ResponseWriter, r *http.Request, hackathonDB *gorp.DbMap, params martini.Params) (int, string) {
 	var existingHackathon types.Hackathon
-	err := hackathonDB.SelectOne(&existingHackathon, "select * from hackathons where id=?", params["id"])
+	err := hackathonDB.SelectOne(&existingHackathon, "select * from hackathons where id=$1", params["id"])
 	utils.PanicIf(err)
 
 	// Make a check here to check existingHackathon.OwnerID here when auth has been implemented

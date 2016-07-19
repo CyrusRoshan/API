@@ -2,7 +2,9 @@
 OSH's API service
 
 
-example post request to `/cms/new`:
+example get request can be made to `/cms/get/:id`
+
+example post request body to `/cms/new`:
 
 ```
 {
