@@ -2,7 +2,6 @@ package main
 
 import (
 	"net/http"
-	"path/filepath"
 
 	"github.com/bugsnag/bugsnag-go"
 	"github.com/go-martini/martini"
@@ -22,8 +21,7 @@ func bugsnagHandler() martini.Handler {
 }
 
 func main() {
-	keyfilePath, _ := filepath.Abs("./keys/keys.yaml")
-	keyHolder := utils.ReadKeys(keyfilePath)
+	keyHolder := utils.KeyStore()
 
 	m := martini.New()
 	router := martini.NewRouter()
@@ -37,7 +35,7 @@ func main() {
 	// m.Use(bugsnagHandler())
 	m.Use(gzip.All())
 
-	hackathonDB := db.InitHackathons(keyHolder["postgresURL"])
+	hackathonDB := db.InitHackathons(keyHolder("DATABASE_URL"))
 	defer hackathonDB.Db.Close()
 	// hackathonDB.TraceOn("[gorp]", log.New(os.Stdout, "myapp:", log.Lmicroseconds))
 	m.Map(hackathonDB)

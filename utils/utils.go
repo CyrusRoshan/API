@@ -3,6 +3,8 @@ package utils
 import (
 	"encoding/json"
 	"io/ioutil"
+	"os"
+	"path/filepath"
 
 	"gopkg.in/yaml.v1"
 )
@@ -33,4 +35,16 @@ func MustMarshal(data interface{}) string {
 	}
 
 	return string(out)
+}
+
+func KeyStore() func(string) string {
+	keyfilePath, _ := filepath.Abs("./keys/keys.yaml")
+	if _, err := os.Stat(keyfilePath); err == nil {
+		keyHolder := ReadKeys(keyfilePath)
+		return func(key string) string {
+			return keyHolder[key]
+		}
+	} else {
+		return os.Getenv
+	}
 }
