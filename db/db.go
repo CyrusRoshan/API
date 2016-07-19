@@ -1,8 +1,13 @@
 package db
 
 import (
+	"database/sql"
+	"log"
+
+	"gopkg.in/gorp.v1"
+
+	"github.com/cyrusroshan/API/types"
 	"github.com/cyrusroshan/API/utils"
-	"github.com/jmoiron/sqlx"
 	"github.com/lib/pq"
 )
 
@@ -12,14 +17,25 @@ const (
 	ClosedState
 )
 
-func InitHackathons(url string) *sqlx.DB {
+func InitHackathons(url string) *gorp.DbMap {
 	connection, _ := pq.ParseURL(url)
 	connection += " sslmode=require"
 
-	db, err := sqlx.Connect("postgres", connection)
+	db, err := sql.Open("postgres", connection)
+	if err != nil {
+		log.Println(err)
+	}
+
+	dbmap := &gorp.DbMap{
+		Db:            db,
+		Dialect:       gorp.PostgresDialect{},
+		TypeConverter: types.HackathonTypeConverter{},
+	}
+
+	dbmap.AddTableWithName(types.Hackathon{}, "hackathons").SetKeys(true, "Id")
+
+	err = dbmap.CreateTablesIfNotExists()
 	utils.PanicIf(err)
 
-	db.MustExec("CREATE TABLE IF NOT EXISTS hackathons (id SERIAL PRIMARY KEY, ownerID INTEGER, name TEXT, location JSONB, startDate BIGINT, endDate BIGINT, currentState INTEGER, prizes JSONB, reimbursements BOOLEAN, busesOffered BOOLEAN, busLocations JSONB, socialLinks JSONB, hardware JSONB, map TEXT, metadata JSONB)")
-
-	return db
+	return dbmap
 }
