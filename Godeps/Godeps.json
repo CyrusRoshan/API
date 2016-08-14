@@ -1,17 +1,17 @@
 {
-	"ImportPath": "github.com/cyrusroshan/API",
+	"ImportPath": "github.com/WolfBeacon/API",
 	"GoVersion": "go1.6",
 	"GodepVersion": "v74",
 	"Deps": [
 		{
 			"ImportPath": "github.com/bugsnag/bugsnag-go",
-			"Comment": "v1.0.5-21-g0d5b6e5",
-			"Rev": "0d5b6e579efe7c6f2dc142602672061c29fcc133"
+			"Comment": "v1.0.5-28-g31ae348",
+			"Rev": "31ae3484de3e96dbc4de1756b14ad6393b94103c"
 		},
 		{
 			"ImportPath": "github.com/bugsnag/bugsnag-go/errors",
-			"Comment": "v1.0.5-21-g0d5b6e5",
-			"Rev": "0d5b6e579efe7c6f2dc142602672061c29fcc133"
+			"Comment": "v1.0.5-28-g31ae348",
+			"Rev": "31ae3484de3e96dbc4de1756b14ad6393b94103c"
 		},
 		{
 			"ImportPath": "github.com/bugsnag/osext",
