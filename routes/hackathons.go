@@ -1,4 +1,4 @@
-package cms
+package hackathons
 
 import (
 	"encoding/json"
@@ -7,11 +7,11 @@ import (
 	"github.com/go-martini/martini"
 	"gopkg.in/gorp.v1"
 
-	"github.com/cyrusroshan/API/types"
-	"github.com/cyrusroshan/API/utils"
+	"github.com/WolfBeacon/API/types"
+	"github.com/WolfBeacon/API/utils"
 )
 
-func GetHackathon(w http.ResponseWriter, r *http.Request, hackathonDB *gorp.DbMap, params martini.Params) (int, string) {
+func Get(w http.ResponseWriter, r *http.Request, hackathonDB *gorp.DbMap, params martini.Params) (int, string) {
 	var existingHackathon types.Hackathon
 	err := hackathonDB.SelectOne(&existingHackathon, "select * from hackathons where id=$1", params["id"])
 	utils.PanicIf(err)
@@ -19,7 +19,7 @@ func GetHackathon(w http.ResponseWriter, r *http.Request, hackathonDB *gorp.DbMa
 	return 200, utils.MustMarshal(existingHackathon)
 }
 
-func NewHackathon(w http.ResponseWriter, r *http.Request, hackathonDB *gorp.DbMap, params martini.Params) (int, string) {
+func New(w http.ResponseWriter, r *http.Request, hackathonDB *gorp.DbMap, params martini.Params) (int, string) {
 	decoder := json.NewDecoder(r.Body)
 	var newHackathon types.Hackathon
 
@@ -34,7 +34,7 @@ func NewHackathon(w http.ResponseWriter, r *http.Request, hackathonDB *gorp.DbMa
 	return 200, utils.MustMarshal(newHackathon)
 }
 
-func EditHackathon(w http.ResponseWriter, r *http.Request, hackathonDB *gorp.DbMap, params martini.Params) (int, string) {
+func Edit(w http.ResponseWriter, r *http.Request, hackathonDB *gorp.DbMap, params martini.Params) (int, string) {
 	var existingHackathon types.Hackathon
 	err := hackathonDB.SelectOne(&existingHackathon, "select * from hackathons where id=$1", params["id"])
 	utils.PanicIf(err)
@@ -55,7 +55,7 @@ func EditHackathon(w http.ResponseWriter, r *http.Request, hackathonDB *gorp.DbM
 	return 200, utils.MustMarshal(&editedHackathon)
 }
 
-func DeleteHackathon(w http.ResponseWriter, r *http.Request, hackathonDB *gorp.DbMap, params martini.Params) (int, string) {
+func Delete(w http.ResponseWriter, r *http.Request, hackathonDB *gorp.DbMap, params martini.Params) (int, string) {
 	var existingHackathon types.Hackathon
 	err := hackathonDB.SelectOne(&existingHackathon, "select * from hackathons where id=$1", params["id"])
 	utils.PanicIf(err)
@@ -66,4 +66,11 @@ func DeleteHackathon(w http.ResponseWriter, r *http.Request, hackathonDB *gorp.D
 	utils.PanicIf(err)
 
 	return 200, utils.MustMarshal(existingHackathon)
+}
+
+func List(w http.ResponseWriter, r *http.Request, hackathonDB *gorp.DbMap, params martini.Params) (int, string) {
+	allHackathons, err := hackathonDB.Select(types.Hackathon{}, "select * from hackathons")
+	utils.PanicIf(err)
+
+	return 200, utils.MustMarshal(allHackathons)
 }

@@ -6,8 +6,8 @@ import (
 
 	"gopkg.in/gorp.v1"
 
-	"github.com/cyrusroshan/API/types"
-	"github.com/cyrusroshan/API/utils"
+	"github.com/WolfBeacon/API/types"
+	"github.com/WolfBeacon/API/utils"
 	"github.com/lib/pq"
 )
 

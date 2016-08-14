@@ -7,9 +7,9 @@ import (
 	"github.com/go-martini/martini"
 	"github.com/martini-contrib/gzip"
 
-	"github.com/cyrusroshan/API/db"
-	"github.com/cyrusroshan/API/routes"
-	"github.com/cyrusroshan/API/utils"
+	"github.com/WolfBeacon/API/db"
+	"github.com/WolfBeacon/API/routes"
+	"github.com/WolfBeacon/API/utils"
 )
 
 func bugsnagHandler() martini.Handler {
@@ -44,11 +44,12 @@ func main() {
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	})
 
-	router.Group("/cms", func(r martini.Router) {
-		r.Get("/get/:id", cms.GetHackathon)
-		r.Get("/delete/:id", cms.DeleteHackathon)
-		r.Post("/new", cms.NewHackathon)
-		r.Post("/edit/:id", cms.EditHackathon)
+	router.Group("/hackathons", func(r martini.Router) {
+		r.Get("/get/:id", hackathons.Get)
+		r.Get("/delete/:id", hackathons.Delete)
+		r.Post("/new", hackathons.New)
+		r.Post("/edit/:id", hackathons.Edit)
+		r.Get("/list", hackathons.List)
 	})
 
 	m.MapTo(router, (*martini.Routes)(nil))

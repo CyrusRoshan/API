@@ -2,9 +2,9 @@
 OSH's API service
 
 
-example get request can be made to `/cms/get/:id`
+See routes [here](https://github.com/WolfBeacon/API/blob/master/main.go#L47)
 
-example post request body to `/cms/new`:
+example post request body to `/hackathons/new`:
 
 ```
 {
